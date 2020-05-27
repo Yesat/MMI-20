@@ -1,5 +1,9 @@
 from mouse._generic import GenericListener as _GenericListener
 from mouse._mouse_event import ButtonEvent, MoveEvent, WheelEvent, LEFT, RIGHT, MIDDLE, X, X2, UP, DOWN, DOUBLE
+
+from PIL import ImageGrab
+from io import BytesIO
+
 import keyboard
 import psutil
 import subprocess
@@ -8,9 +12,7 @@ import speech_recognition as sr
 import os
 import platform as _platform
 import win32clipboard
-from PIL import ImageGrab
-from io import BytesIO
-from planar import BoundingBox
+
 
 '''keyboard element'''
 # https://github.com/boppreh/keyboard#keyboard.send
@@ -145,7 +147,6 @@ def send_to_clipboard(clip_type, data):
 
 def screenshot(pos_a, pos_b):
     bbox = [min(pos_a[0], pos_b[0]), min(pos_a[1], pos_b[1]), max(pos_a[0], pos_b[0]), max(pos_a[1], pos_b[1])]
-    print(bbox)
     image = ImageGrab.grab(bbox)
 
     output = BytesIO()
@@ -154,6 +155,7 @@ def screenshot(pos_a, pos_b):
     output.close()
 
     send_to_clipboard(win32clipboard.CF_DIB, data)
+    print('screenshot saved to the clipboard')
 
 
 ''' Audio recording '''
@@ -168,8 +170,10 @@ def get_audio():
     i = 0
 
     while i < 2:
-        print(f'step {i}')
+        commands = ['from here', 'to there']
         i += 1
+        print(f'step {i}')
+        
         with sr.Microphone() as source:
             print("I'm listening")
             audio = r.listen(source)
@@ -188,40 +192,23 @@ def get_audio():
             except:
                 print("Sorry could not understand your command")
                 i = i-1
-            if pos_b == (0, 0):
+            if pos_b == (0, 0) and i == 2:
                 i = 1
                 print('something was wrong with second trigger')
             elif pos_a == (0,0):
                 i = 0
                 print('something was wrong with first trigger')
-            print()
-    print(pos_a, pos_b)
+            print() 
     return(pos_a,pos_b)
 
 
 ''' Main'''
-
+ 
   
 def pushToTalk():
 
     print("PTT launched")
-
-    # Check if ShareX is already running, if not, launches it
-    name = 'ShareX.exe'
-    path = "C:\Program Files\ShareX\ShareX.exe"
-
-    if checkIfProcessRunning(name):
-        print(f'{name} is running')
-    else:
-        print(f'{name} isn''t running, lanched')
-        p = subprocess.Popen(path)
-
-
-    # Launches the print sceen shortcut
-    # _time.sleep(5)
-
     print()
-
     # Record the audio
     _time.sleep(1)
     # print("I'm listening 1")
@@ -231,10 +218,9 @@ def pushToTalk():
     # print(pos_a)
     # print(pos_a.y)
 
-    print("drag mouse")
     screenshot(pos_a,pos_b)
 
-    print("PRINT SCREEN")
+
 
 
     print() 
