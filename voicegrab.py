@@ -19,8 +19,8 @@ from planar import BoundingBox
 # https://github.com/boppreh/mouse#mouse.release
 if _platform.system() == 'Windows':
     from mouse import _winmouse as _os_mouse
-elif _platform.system() == 'Linux':
-    from mouse import _nixmouse as _os_mouse
+# elif _platform.system() == 'Linux':
+#     from mouse import _nixmouse as _os_mouse
 else:
     raise OS1Error("Unsupported platform '{}'".format(_platform.system()))
 
@@ -144,7 +144,8 @@ def send_to_clipboard(clip_type, data):
 
 
 def screenshot(pos_a, pos_b):
-    bbox = (min(pos_a[0], pos_b[0]), max(pos_a[1], pos_b[1])), (max(pos_a[0], pos_b[0]), min    (pos_a[1], pos_b[1]))
+    bbox = [min(pos_a[0], pos_b[0]), min(pos_a[1], pos_b[1]), max(pos_a[0], pos_b[0]), max(pos_a[1], pos_b[1])]
+    print(bbox)
     image = ImageGrab.grab(bbox)
 
     output = BytesIO()
@@ -177,13 +178,13 @@ def get_audio():
                 said = r.recognize_google(audio)
                 print(said)
 
-                if "a" in said:
+                if "from" in said:
                     pos_a = get_position()
                     print(f"pos_a = {pos_a}")
 
-                if "b" in said:
+                if "there" in said:
                     pos_b = get_position()
-                    print(f"pos_b = {pos_b}")
+                    print(f"pos_b = {pos_b}")   
             except:
                 print("Sorry could not understand your command")
                 i = i-1
@@ -195,12 +196,12 @@ def get_audio():
                 print('something was wrong with first trigger')
             print()
     print(pos_a, pos_b)
-    screenshot(pos_a,pos_b)
+    return(pos_a,pos_b)
 
 
 ''' Main'''
 
- 
+  
 def pushToTalk():
 
     print("PTT launched")
@@ -231,13 +232,12 @@ def pushToTalk():
     # print(pos_a.y)
 
     print("drag mouse")
-    keyboard.press_and_release('ctrl + PrtScn')
-    drag(pos_a[0], pos_a[1], pos_b[0], pos_b[1])
+    screenshot(pos_a,pos_b)
 
     print("PRINT SCREEN")
 
 
-    print()
+    print() 
 
 def main():
     hotkey = 'tab + space'
