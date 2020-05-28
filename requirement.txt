@@ -1,0 +1,5 @@
+keyboard
+psutil
+speech_recognition
+win32clipboard
+Pillow

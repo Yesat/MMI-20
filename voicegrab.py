@@ -6,7 +6,6 @@ from io import BytesIO
 
 import keyboard
 import psutil
-import subprocess
 import time as _time
 import speech_recognition as sr
 import os
@@ -153,11 +152,15 @@ def screenshot(pos_a, pos_b):
     image.convert("RGB").save(output, "BMP")
     data = output.getvalue()[14:]
     output.close()
-
+    
+    time = _time.ctime()
+    time = time.replace(":", "-")
+    time = time.replace(" ", "_")
+    image.save('screenshot_%s.png' % time)
     send_to_clipboard(win32clipboard.CF_DIB, data)
-    print('screenshot saved to the clipboard')
+    print('screenshot saved to the clipboard')  
 
-
+    
 ''' Audio recording '''
 
      
