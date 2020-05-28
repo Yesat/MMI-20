@@ -160,7 +160,7 @@ def screenshot(pos_a, pos_b):
 
 ''' Audio recording '''
 
-
+     
 def get_audio():
     r = sr.Recognizer()
 
