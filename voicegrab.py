@@ -3,14 +3,17 @@ from mouse._mouse_event import ButtonEvent, MoveEvent, WheelEvent, LEFT, RIGHT, 
 
 from PIL import ImageGrab
 from io import BytesIO
+from gtts import gTTS
 
 import keyboard
 import psutil
+import subprocess
 import time as _time
 import speech_recognition as sr
 import os
 import platform as _platform
 import win32clipboard
+from playsound import playsound
 
 
 '''keyboard element'''
@@ -152,17 +155,23 @@ def screenshot(pos_a, pos_b):
     image.convert("RGB").save(output, "BMP")
     data = output.getvalue()[14:]
     output.close()
-    
-    time = _time.ctime()
-    time = time.replace(":", "-")
-    time = time.replace(" ", "_")
-    image.save('screenshot_%s.png' % time)
+
     send_to_clipboard(win32clipboard.CF_DIB, data)
-    print('screenshot saved to the clipboard')  
+    print('screenshot saved to the clipboard')
 
     
-''' Audio recording '''
+    
+    
+''' Acknowledgment sounds'''
 
+def createSounds(filename, text):
+    tts = gTTS(text=text, lang="en")
+    tts.save(filename)
+
+    
+
+
+''' Audio recording '''
      
 def get_audio():
     r = sr.Recognizer()
@@ -187,12 +196,15 @@ def get_audio():
                 if "from" in said:
                     pos_a = get_position()
                     print(f"pos_a = {pos_a}")
+                    playsound("posA.mp3")
 
                 if "there" in said:
                     pos_b = get_position()
                     print(f"pos_b = {pos_b}")   
+                    playsound("posB.mp3")
             except:
                 print("Sorry could not understand your command")
+                playsound("notUnderstood.mp3")
                 i = i-1
             if pos_b == (0, 0) and i == 2:
                 i = 1
@@ -206,37 +218,71 @@ def get_audio():
 
 ''' Main'''
  
-  
+
 def pushToTalk():
 
     print("PTT launched")
-    print('To take a screenshot: \n - say "Take a screenshot from here", \n - wait for the acknowledgement,\n - then say "to there" \n The screenshot is then saved into your clipboard and can be pasted anywhere you want.')
-    # Record the audio
+    print('To take a screenshot: \n - say "Take a screenshot from here", \n - wait for the acknowledgement,\n - then say "to there" \n The screenshot is then saved into your clipboard and can be pasted anywhere you want.\n')
+    
+#     Listening acknowledgment for the user
+    playsound("listeningAck.mp3")
+    
+#     Record the audio
     _time.sleep(1)
-    # print("I'm listening 1")
+
     pos_a, pos_b = get_audio()
 
-    # print(pos_a)
-    # print(pos_a)
-    # print(pos_a.y)
 
     screenshot(pos_a,pos_b)
 
-
-
-
     print() 
+    playsound("saved.mp3")
 
+    
 def main():
-    hotkey = 'tab + space'
+    
+    # quick check and folder creation if it was removed
+    listeningAck_file = os.path.join('.', 'listeningAck.mp3')
+    posA_file = os.path.join('.', 'posA.mp3')
+    posB_file = os.path.join('.', 'posB.mp3')
+    notUnderstood_file = os.path.join('.', 'notUnderstood.mp3')
+    saved_file = os.path.join('.', 'saved.mp3')
+    end_file = os.path.join('.', 'end.mp3')
+
+    # Check if the file already exists
+    if not os.path.isfile(listeningAck_file):
+        print("Creating audio file listeningAck")
+        createSounds("listeningAck.mp3", "I am listening")
+    if not os.path.isfile(posA_file):
+        print("Creating audio file posA")
+        createSounds("posA.mp3", "the first position is saved")
+    if not os.path.isfile(posB_file):
+        print("Creating audio file posB")
+        createSounds("posB.mp3", "the second position is saved")
+    if not os.path.isfile(notUnderstood_file):
+        print("Creating audio file notUnderstood")
+        createSounds("notUnderstood.mp3", "not understood")
+    if not os.path.isfile(saved_file):
+        print("Creating audio file saved")
+        createSounds("saved.mp3", "your screenshot has been saved")
+    if not os.path.isfile(end_file):
+        print("Creating audio file end")
+        createSounds("end.mp3", "process ended")
+
+    
+    
+    hotkey = '§'
 
     keyboard.add_hotkey(hotkey, pushToTalk, suppress=True, trigger_on_release=True)
 
 
-    print("Press tabs + space to start")
-    print("Press Esc + space to stop\n")
-    keyboard.wait('esc + space')
+    print("Press § to start")
+    print("Press Esc to stop\n")
+    keyboard.wait('esc')
+    
+    playsound("end.mp3")
     print("Code ended")
+    
     keyboard.unhook_all_hotkeys()   
 
 if __name__ == '__main__':
