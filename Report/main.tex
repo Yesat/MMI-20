@@ -1,32 +1,27 @@
-
 \documentclass[a4paper, 12pt, oneside, titlepage]{article}
 
-%To use the command \includegraphics in the document
+
 \usepackage{graphicx}
-
-%Package to manipulate the header style of the document. It defines commands for the page style fancy
 \usepackage{fancyhdr}
-
-%Package to be able to positioning pictures. See in the file intro.tex the \begin{figure}[htbp] commad, where  [htbp] are the positioning parameters.
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex, bookmarks]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{soul}
+\usepackage{ulem}
+\usepackage{hyperref}
+%\usepackage{listings}
+\usepackage{pdfpages}
 \usepackage{float}
 
-%To create 2 different bibliographies (book and web). See also command \newcites and the bibliography part
-\usepackage{multibib}
-
-%Using utf8 encoding
-\usepackage[utf8]{inputenc}
-%The output font of LaTeX
-\usepackage[T1]{fontenc}
-
-%To activate links in the document per command \url, linking the urls in the bookmarks,  the tables of contents and the list of figures
-\usepackage[pdftex, bookmarks]{hyperref}
-
-%Create new commands for the bibliography of web cites (see the webref file too)
-\newcommand{\lastVisited}[3]{(accessed:  #1. #2 #3)} 
-\newcommand{\biburl}[4]{{\url{#1} \lastVisited{#2}{#3}{#4}}} 
-
-%To implement the new cite \citeweb
-\newcites{web}{Referenced Web Ressources} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{caption}
+\usepackage{blindtext}
 
 
 %Defines the header and footer of the document like header, page numbering
@@ -42,6 +37,7 @@
 \cfoot{\fancyplain{} \thepage}
 \rfoot{}
 \fancypagestyle{plain}
+
 
 
 %The body of the LaTeX file
