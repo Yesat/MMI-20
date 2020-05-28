@@ -1,5 +1,5 @@
 keyboard
 psutil
-speech_recognition
-win32clipboard
+SpeechRecognition
+pywin32 
 Pillow
