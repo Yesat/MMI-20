@@ -3,3 +3,5 @@ psutil
 SpeechRecognition
 pywin32 
 Pillow
+playsound
+gTTS
