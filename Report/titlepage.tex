@@ -1,0 +1,48 @@
+%Autor: Daniel Fasel daniel.fasel@unifr.ch
+%Date: 10.01.2008
+%Comment: An example of a title page file
+
+%Starting the title page. A \begin command always ends with a \end command
+\begin{titlepage} 
+	%Center all the following stuff
+	\begin{center}
+		
+		%Include the unifr.jpg file from ./images. \\ is a line break
+		\includegraphics[scale=2]{images/unifr.jpg}\\
+		
+		%Do a vertical space of 0.5 cm
+		\vspace{0.5cm}
+		
+		Department of Informatics\\
+		University of Fribourg\\
+
+		\vspace{3cm}
+		
+		%Start a large font
+		\begin{large}
+		A \LaTeX{} Example\\
+		SS 2008\\
+		\end{large}
+		
+		\vspace{3cm}
+		
+		%Start a huge font
+		\begin{huge}
+			%Sans serif
+			{\sf Our voice controled project}
+		\end{huge}
+		
+				
+		\vspace{3cm}
+		
+		\begin{large}
+			\vspace{1cm}
+			 by\\
+			 %Fasel in capitals
+			 Kilian \textsc{Ruchti} & Lionel Ieri\\
+			\vspace{0.2cm}
+			January - 2008
+		\end{large}
+				
+	\end{center}
+\end{titlepage}

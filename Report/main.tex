@@ -1,0 +1,83 @@
+
+\documentclass[a4paper, 12pt, oneside, titlepage]{article}
+
+%To use the command \includegraphics in the document
+\usepackage{graphicx}
+
+%Package to manipulate the header style of the document. It defines commands for the page style fancy
+\usepackage{fancyhdr}
+
+%Package to be able to positioning pictures. See in the file intro.tex the \begin{figure}[htbp] commad, where  [htbp] are the positioning parameters.
+\usepackage{float}
+
+%To create 2 different bibliographies (book and web). See also command \newcites and the bibliography part
+\usepackage{multibib}
+
+%Using utf8 encoding
+\usepackage[utf8]{inputenc}
+%The output font of LaTeX
+\usepackage[T1]{fontenc}
+
+%To activate links in the document per command \url, linking the urls in the bookmarks,  the tables of contents and the list of figures
+\usepackage[pdftex, bookmarks]{hyperref}
+
+%Create new commands for the bibliography of web cites (see the webref file too)
+\newcommand{\lastVisited}[3]{(accessed:  #1. #2 #3)} 
+\newcommand{\biburl}[4]{{\url{#1} \lastVisited{#2}{#3}{#4}}} 
+
+%To implement the new cite \citeweb
+\newcites{web}{Referenced Web Ressources} 
+
+
+%Defines the header and footer of the document like header, page numbering
+\pagestyle{fancyplain}
+
+%Setting up the document header and footer style
+%\renewcommand\chaptermark[1]{\markright{\thechapter\ #1}}
+\renewcommand\sectionmark[1]{\markright{\thesection\ #1}}
+\renewcommand\subsectionmark[1]{\markright{\thesubsection\ #1}}
+\fancyhf{}
+\rhead{\fancyplain{}  \rightmark}
+\lfoot{}
+\cfoot{\fancyplain{} \thepage}
+\rfoot{}
+\fancypagestyle{plain}
+
+
+%The body of the LaTeX file
+\begin{document}  
+
+%Set the page numbering to roman 
+\pagenumbering{roman}
+
+%Including of the title page. See titlepage.tex file
+\include{titlepage}
+
+%Include the table of contents
+\tableofcontents 
+
+%As in the file abstract.tex the command \chapter* is used, the title has to be inserted manually into the header. See the file abstract.tex for more information.
+\rhead{\fancyplain{} \itshape Abstract}
+
+
+%Set \rhead back to before defined mode
+\rhead{\fancyplain{}  \rightmark}
+
+%pagebreak to force the pagenumbering to arabic
+\pagebreak
+
+%Change page numbering to arabic
+\pagenumbering{arabic}
+ 
+ %Include the chapters. For each chapter use one .tex file and a \include command
+ \include{report}
+ %\include{intro2CRM} 
+ 
+
+%The appendix section
+\appendix
+
+%Include the appendix.tex file
+\include{apendix}
+
+\end{document}
