@@ -193,25 +193,27 @@ def get_audio():
                 said = r.recognize_google(audio)
                 print(said)
 
-                if "from" in said:
+                if "from here" in said and i==1:
                     pos_a = get_position()
                     print(f"pos_a = {pos_a}")
                     playsound("posA.mp3")
 
-                if "there" in said:
+                if "there" in said and i==2:
                     pos_b = get_position()
                     print(f"pos_b = {pos_b}")   
                     playsound("posB.mp3")
             except:
-                print("Sorry could not understand your command")
                 playsound("notUnderstood.mp3")
+                print("Sorry could not understand your command")
                 i = i-1
-            if pos_b == (0, 0) and i == 2:
-                i = 1
-                print('Please say "to there" for the software to place the end point of your screenshot')
-            elif pos_a == (0,0):
+            if pos_a == (0,0):
                 i = 0
+                playsound("repeatA.mp3")
                 print('Please say "from here" for the software to place the first point of the screenshot')
+            elif pos_b == (0, 0) and i == 2:
+                i = 1
+                playsound("repeatB.mp3")
+                print('Please say "to there" for the software to place the end point of your screenshot')
             print() 
     return(pos_a,pos_b)
 
@@ -221,15 +223,13 @@ def get_audio():
 
 def pushToTalk():
 
-    print("PTT launched")
-    print('To take a screenshot: \n - say "Take a screenshot from here", \n - wait for the acknowledgement,\n - then say "to there" \n The screenshot is then saved into your clipboard and can be pasted anywhere you want.\n')
+    print("\n\nPTT launched")
     
 #     Listening acknowledgment for the user
     playsound("listeningAck.mp3")
+
     
 #     Record the audio
-    _time.sleep(1)
-
     pos_a, pos_b = get_audio()
 
 
@@ -238,36 +238,64 @@ def pushToTalk():
     print() 
     playsound("saved.mp3")
 
+    playsound("exit.mp3")
+
     
 def main():
     
     # quick check and folder creation if it was removed
+    ready_file = os.path.join('.', 'ready.mp3')
     listeningAck_file = os.path.join('.', 'listeningAck.mp3')
     posA_file = os.path.join('.', 'posA.mp3')
     posB_file = os.path.join('.', 'posB.mp3')
+    repeatA_file = os.path.join('.', 'repeatA.mp3')
+    repeatB_file = os.path.join('.', 'repeatB.mp3')
     notUnderstood_file = os.path.join('.', 'notUnderstood.mp3')
     saved_file = os.path.join('.', 'saved.mp3')
     end_file = os.path.join('.', 'end.mp3')
+    exit_file = os.path.join('.', 'exit.mp3')
 
     # Check if the file already exists
+    if not os.path.isfile(ready_file):
+        print("Creating audio file ready")
+        createSounds("ready.mp3", "The process is ready")
+        
     if not os.path.isfile(listeningAck_file):
         print("Creating audio file listeningAck")
         createSounds("listeningAck.mp3", "I am listening")
+        
     if not os.path.isfile(posA_file):
         print("Creating audio file posA")
         createSounds("posA.mp3", "the first position is saved")
+        
     if not os.path.isfile(posB_file):
         print("Creating audio file posB")
         createSounds("posB.mp3", "the second position is saved")
+        
+    if not os.path.isfile(repeatA_file):
+        print("Creating audio file repeatA")
+        createSounds("repeatA.mp3", "Please say from here for the first command")
+        
+    if not os.path.isfile(repeatB_file):
+        print("Creating audio file repeatB")
+        createSounds("repeatB.mp3", "Please say two there for the second command")
+        
     if not os.path.isfile(notUnderstood_file):
         print("Creating audio file notUnderstood")
-        createSounds("notUnderstood.mp3", "not understood")
+        createSounds("notUnderstood.mp3", "Sorry did not understand your command")
+        
     if not os.path.isfile(saved_file):
         print("Creating audio file saved")
-        createSounds("saved.mp3", "your screenshot has been saved")
+        createSounds("saved.mp3", "your screenshot has been saved into your clipboard and can be pasted anywhere you want")
+        
     if not os.path.isfile(end_file):
         print("Creating audio file end")
-        createSounds("end.mp3", "process ended")
+        createSounds("end.mp3", "The process is ended")
+        
+    if not os.path.isfile(exit_file):
+        print("Creating audio file exit")
+        createSounds("exit.mp3", "You can take another screenshot by pressing the key above tabulation or quit by pressing escape")
+        
 
     
     
@@ -275,9 +303,11 @@ def main():
 
     keyboard.add_hotkey(hotkey, pushToTalk, suppress=True, trigger_on_release=True)
 
+    print('To take a screenshot: (of any size)\n\n - press the § key of your keyboard (under the Esc key)\n\n - Wait fo the phrase "I am listening"\n\n - then say "Take a screenchot from here", here being the position of the mouse\'s pointer and where you want the screenshot to start\n\n - wait for the acknowledgement "The first position is saved",\n\n - then say "to there", there being the position of the mouse\'s pointer and where you want the screenshot to stop.\n\n The screenshot is then saved into your clipboard and can be pasted anywhere you want.\n')
 
     print("Press § to start")
     print("Press Esc to stop\n")
+    playsound("ready.mp3")
     keyboard.wait('esc')
     
     playsound("end.mp3")
