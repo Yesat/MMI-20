@@ -130,3 +130,6 @@ dmypy.json
 
 # Pictures
 *.png
+
+# audio
+*.mp3

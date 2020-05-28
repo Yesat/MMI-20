@@ -258,7 +258,7 @@ def main():
     # Check if the file already exists
     if not os.path.isfile(ready_file):
         print("Creating audio file ready")
-        createSounds("ready.mp3", "The process is ready")
+        createSounds("ready.mp3", "Hello there")
         
     if not os.path.isfile(listeningAck_file):
         print("Creating audio file listeningAck")
@@ -266,19 +266,19 @@ def main():
         
     if not os.path.isfile(posA_file):
         print("Creating audio file posA")
-        createSounds("posA.mp3", "the first position is saved")
+        createSounds("posA.mp3", "First position saved")
         
     if not os.path.isfile(posB_file):
         print("Creating audio file posB")
-        createSounds("posB.mp3", "the second position is saved")
+        createSounds("posB.mp3", "Second position saved")
         
     if not os.path.isfile(repeatA_file):
         print("Creating audio file repeatA")
-        createSounds("repeatA.mp3", "Please say from here for the first command")
+        createSounds("repeatA.mp3", "Please say 'from here' for the first command")
         
     if not os.path.isfile(repeatB_file):
         print("Creating audio file repeatB")
-        createSounds("repeatB.mp3", "Please say two there for the second command")
+        createSounds("repeatB.mp3", "Please say 'to there' for the second command.")
         
     if not os.path.isfile(notUnderstood_file):
         print("Creating audio file notUnderstood")
@@ -286,11 +286,11 @@ def main():
         
     if not os.path.isfile(saved_file):
         print("Creating audio file saved")
-        createSounds("saved.mp3", "your screenshot has been saved into your clipboard and can be pasted anywhere you want")
+        createSounds("saved.mp3", "Your screenshot has been copied")
         
     if not os.path.isfile(end_file):
         print("Creating audio file end")
-        createSounds("end.mp3", "The process is ended")
+        createSounds("end.mp3", "Goodbye!")
         
     if not os.path.isfile(exit_file):
         print("Creating audio file exit")
