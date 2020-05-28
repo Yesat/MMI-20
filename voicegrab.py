@@ -168,7 +168,6 @@ def get_audio():
     pos_b = (0, 0)
 
     i = 0
-
     while i < 2:
         commands = ['from here', 'to there']
         i += 1
@@ -194,10 +193,10 @@ def get_audio():
                 i = i-1
             if pos_b == (0, 0) and i == 2:
                 i = 1
-                print('something was wrong with second trigger')
+                print('Please say "to there" for the software to place the end point of your screenshot')
             elif pos_a == (0,0):
                 i = 0
-                print('something was wrong with first trigger')
+                print('Please say "from here" for the software to place the first point of the screenshot')
             print() 
     return(pos_a,pos_b)
 
@@ -208,7 +207,7 @@ def get_audio():
 def pushToTalk():
 
     print("PTT launched")
-    print()
+    print('To take a screenshot: \n - say "Take a screenshot from here", \n - wait for the acknowledgement,\n - then say "to there" \n The screenshot is then saved into your clipboard and can be pasted anywhere you want.')
     # Record the audio
     _time.sleep(1)
     # print("I'm listening 1")
